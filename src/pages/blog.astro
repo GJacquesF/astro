@@ -1,8 +1,15 @@
-<body>
-    <a href="/">home</a>
-    <a href="/about">About</a>
-    <a href="/blog">Blog</a>
-    
-    <h1>Este es mi blog</h1>
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPost from '../components/BlogPost.astro';
+const allPosts = await getCollection('blog');
+const pageTitle = "Inicio";
+---
+<BaseLayout pageTitle={pageTitle}>
+  <h2>Este es mi Blog</h2>
     <p>Aquí es donde publico sobre lo que hago en el curso</p>
-</body>
+
+    <ul>
+      {allPosts.map((post) => <BlogPost url={`/posts/${post.id}/`} title={post.data.title} />)}
+    </ul>
+</BaseLayout>
